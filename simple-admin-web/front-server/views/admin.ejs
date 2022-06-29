@@ -33,7 +33,9 @@
             <th scope="col">TODO</th>
             <th scope="col">완료여부</th>
             <th scope="col">
-              <button type="button" class="btn btn-outline-primary">추가</button>
+              <button type="button" class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#contentFormModal" data-bs-whatever="">
+                추가
+              </button>
             </th>
           </tr>
         </thead>
@@ -43,7 +45,9 @@
             <td>Mark</td>
             <td>Otto</td>
             <td>
-              <button type="button" class="btn btn-outline-success">수정</button>
+              <button type="button" class="btn btn-outline-success"  data-bs-toggle="modal" data-bs-target="#contentFormModal" data-bs-whatever="asdf">
+                수정
+              </button>
               <button type="button" class="btn btn-outline-danger">삭제</button>
             </td>
           </tr>
@@ -80,8 +84,8 @@
             <div class="modal-body">
               <form>
                 <div class="mb-3">
-                  <label for="recipient-name" class="col-form-label">작업내용</label>
-                  <input type="text" class="form-control" id="recipient-name">
+                  <label for="job-name" class="col-form-label">작업 내용</label>
+                  <input type="text" class="form-control" id="job-name">
                 </div>
               </form>
             </div>
