@@ -2,7 +2,8 @@ const express = require("express");
 const path = require("path");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const admin = require("./routes/admin");
+const signin = require("./routes/signin");
+const dashboard = require("./routes/dashboard");
 
 const app = express();
 const port = 3000;
@@ -16,7 +17,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(cors());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use("/", admin);
+app.use("/", signin);
+app.use("/dashboard", dashboard);
 
 app.use('/js', express.static(__dirname + '/node_modules/bootstrap/dist/js')); // redirect bootstrap JS
 app.use('/js', express.static(__dirname + '/node_modules/jquery/dist')); // redirect JS jQuery
