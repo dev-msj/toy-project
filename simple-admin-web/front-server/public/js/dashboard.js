@@ -1,5 +1,9 @@
 /* globals Chart:false, feather:false */
 
+window.onload = () => {
+  loadListChartData();
+}
+
 (function () {
   'use strict'
 
@@ -51,3 +55,66 @@
     }
   })
 })()
+
+const addListChartData = () => {
+  $.ajax(
+    {
+        url : "http://localhost:8080/dashboard/add",
+        data : JSON.stringify({
+            email: $("#floatingInput").val(),
+            password: $("#floatingPassword").val()
+        }),
+        contentType: "application/json; charset=utf-8",
+        dataType : 'json',
+        method : 'post',
+        async : true,
+        success : function(res){
+            if (JSON.parse(res)) {
+                window.location.href = "http://localhost:3000/dashboard";
+            } else {
+                alert('fail!');
+            }
+        },
+        error : function(xhr, status, error){
+            alert(xhr.status);           // 에러코드(404, 500 등)
+            alert(xhr.responseText); // html 포맷의 에러 메시지
+            alert(status);                // 'error'
+            alert(error);                 // 'Not Found'
+        }
+    }
+  );
+}
+
+const loadListChartData = () => {
+  $.ajax(
+    {
+        url : "http://localhost:8080/dashboard/read",
+        method : 'post',
+        success : function(res){
+            if (res) {
+                console.log(res);
+                for (const data of res) {
+                  console.log(data);
+                  const newRowContent = `
+                    <tr>
+                      <td>${data.number}</td>
+                      <td>${data.random}</td>
+                      <td>${data.data}</td>
+                      <td>${data.type}</td>
+                    </tr>
+                  `;
+                  $("#listChart tbody").append(newRowContent);
+                }
+            } else {
+                alert('fail!');
+            }
+        },
+        error : function(xhr, status, error){
+            alert(xhr.status);           // 에러코드(404, 500 등)
+            alert(xhr.responseText); // html 포맷의 에러 메시지
+            alert(status);                // 'error'
+            alert(error);                 // 'Not Found'
+        }
+    }
+);
+}
