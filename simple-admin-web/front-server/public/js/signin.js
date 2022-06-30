@@ -1,17 +1,21 @@
 const onClickSubmit = () => {
     $.ajax(
         {
-            url : "http://localhost:8080/signin",
-            data : {
+            url : "http://localhost:8080/sign-in/",
+            data : JSON.stringify({
                 email: $("#floatingInput").val(),
                 password: $("#floatingPassword").val()
-            },
+            }),
+            contentType: "application/json; charset=utf-8",
             dataType : 'json',
             method : 'post',
-            async : false,
+            async : true,
             success : function(res){
-                alert(res.name + ', '+res.phone);
-                $('p').show();
+                if (JSON.parse(res)) {
+                    alert('login!');
+                } else {
+                    alert('fail!');
+                }
             },
             error : function(xhr, status, error){
                 alert(xhr.status);           // 에러코드(404, 500 등)
