@@ -12,7 +12,7 @@ const onClickSubmit = () => {
             async : true,
             success : function(res){
                 if (JSON.parse(res)) {
-                    alert('login!');
+                    window.location.href = "http://localhost:3000/dashboard";
                 } else {
                     alert('fail!');
                 }
