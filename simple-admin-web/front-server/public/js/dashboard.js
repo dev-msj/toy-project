@@ -1,7 +1,31 @@
 /* globals Chart:false, feather:false */
 
 window.onload = () => {
+  setDataControlModal();
+  setDataDeleteModal();
   loadListChartData();
+}
+
+const setDataControlModal = () => {
+  const dataControlModal = document.getElementById('dataControlModal')
+  dataControlModal.addEventListener('show.bs.modal', function (event) {
+    var button = event.relatedTarget;
+    var dataNumber = button.getAttribute('data-bs-whatever');
+    var modalTitle = dataControlModal.querySelector('.modal-title');
+
+    modalTitle.textContent = 'Update Data : ' + dataNumber;
+  });
+}
+
+const setDataDeleteModal = () => {
+  const dataDeleteModal = document.getElementById('dataDeleteModal')
+  dataDeleteModal.addEventListener('show.bs.modal', function (event) {
+    var button = event.relatedTarget;
+    var dataNumber = button.getAttribute('data-bs-whatever');
+    var modalTitle = dataDeleteModal.querySelector('.modal-title');
+
+    modalTitle.textContent = 'Delete Data : ' + dataNumber;
+  });
 }
 
 (function () {
@@ -54,7 +78,7 @@ window.onload = () => {
       }
     }
   })
-})()
+})();
 
 const addListChartData = () => {
   $.ajax(
@@ -86,35 +110,60 @@ const addListChartData = () => {
 }
 
 const loadListChartData = () => {
-  $.ajax(
-    {
-        url : "http://localhost:8080/dashboard/read",
-        method : 'post',
-        success : function(res){
-            if (res) {
-                console.log(res);
-                for (const data of res) {
-                  console.log(data);
-                  const newRowContent = `
-                    <tr>
-                      <td>${data.number}</td>
-                      <td>${data.random}</td>
-                      <td>${data.data}</td>
-                      <td>${data.type}</td>
-                    </tr>
-                  `;
-                  $("#listChart tbody").append(newRowContent);
-                }
-            } else {
-                alert('fail!');
+  $.ajax({
+    url : "http://localhost:8080/dashboard/read",
+    method : 'post',
+    success : function(res){
+        if (res) {
+            console.log(res);
+            for (const data of res) {
+              console.log(data);
+              const newRowContent = `
+                <tr>
+                  <td>${data.number}</td>
+                  <td id="random${data.number}">${data.random}</td>
+                  <td id="data${data.number}">${data.data}</td>
+                  <td id="type${data.number}">${data.type}</td>
+                  <td>
+                    <button 
+                      type="button" class="btn btn-success btn-sm" 
+                      data-bs-toggle="modal" data-bs-target="#dataControlModal" data-bs-whatever="${data.number}"
+                      onclick="onClickUpdateModal(${data.number})"
+                    >
+                      수정
+                    </button>
+                    <button 
+                      type="button" class="btn btn-danger btn-sm" 
+                      data-bs-toggle="modal" data-bs-target="#dataDeleteModal" data-bs-whatever="${data.number}"
+                    >
+                      삭제
+                    </button>
+                  </td>
+                </tr>
+              `;
+              $("#listChart tbody").append(newRowContent);
             }
-        },
-        error : function(xhr, status, error){
-            alert(xhr.status);           // 에러코드(404, 500 등)
-            alert(xhr.responseText); // html 포맷의 에러 메시지
-            alert(status);                // 'error'
-            alert(error);                 // 'Not Found'
+        } else {
+            alert('fail!');
         }
+    },
+    error : function(xhr, status, error){
+        alert(xhr.status);           // 에러코드(404, 500 등)
+        alert(xhr.responseText); // html 포맷의 에러 메시지
+        alert(status);                // 'error'
+        alert(error);                 // 'Not Found'
     }
-);
+  });
+}
+
+const onClickUpdateModal = (dataNumber) => {
+  if (dataNumber === '') {
+    $("#random-name").val('');
+    $("#data-name").val('');
+    $("#type-name").val('');
+  } else {
+    $("#random-name").val($(`#random${dataNumber}`).text());
+    $("#data-name").val($(`#data${dataNumber}`).text());
+    $("#type-name").val($(`#type${dataNumber}`).text());
+  }
 }

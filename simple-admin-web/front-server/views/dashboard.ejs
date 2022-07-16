@@ -159,10 +159,75 @@
                   <th scope="col">Random</th>
                   <th scope="col">Data</th>
                   <th scope="col">Type</th>
+                  <th scope="col">
+                    <button 
+                      type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" 
+                      data-bs-target="#dataControlModal" data-bs-whatever=""
+                      onclick="onClickUpdateModal('')"
+                    >
+                      추가
+                    </button>
+                  </th>
                 </tr>
               </thead>
               <tbody></tbody>
             </table>
+
+            <!-- Modal -->
+            <div class="modal fade" id="dataControlModal" tabindex="-1" aria-labelledby="dataControlModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="dataControlModalLabel">New message</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form>
+                      <div class="mb-3">
+                        <label for="random-name" class="col-form-label">Random</label>
+                        <input type="text" class="form-control" id="random-name">
+                      </div>
+                      <div class="mb-3">
+                        <label for="data-name" class="col-form-label">Data</label>
+                        <input type="text" class="form-control" id="data-name">
+                      </div>
+                      <div class="mb-3">
+                        <label for="type-name" class="col-form-label">Type</label>
+                        <input type="text" class="form-control" id="type-name">
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Submit</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal fade" id="dataDeleteModal" tabindex="-1" aria-labelledby="dataDeleteModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="dataDeleteModalLabel">Delete</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                    <form>
+                      <div class="mb-3">
+                        <label for="delete-name" class="col-form-label">Delete Data?</label>
+                        <input type="hidden" class="form-control" id="data-number">
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Submit</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
           </div>
         </main>
       </div>
