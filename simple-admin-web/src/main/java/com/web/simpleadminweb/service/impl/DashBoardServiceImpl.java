@@ -19,7 +19,9 @@ public class DashBoardServiceImpl implements DashBoardService {
 
     @Override
     public boolean add(Data data) {
-        if (data.getNumber() == -1) {
+        if (listChartDataList.isEmpty()) {
+            data.setNumber(1);
+        } else {
             Data maxNumberData = listChartDataList.stream().max(Comparator.comparing(Data::getNumber))
                     .orElseThrow(RuntimeException::new);
             data.setNumber(maxNumberData.getNumber() + 1);
@@ -42,12 +44,16 @@ public class DashBoardServiceImpl implements DashBoardService {
         updatedData.setRandom(data.getRandom());
         updatedData.setData(data.getData());
         updatedData.setType(data.getType());
-        
+
         return true;
     }
 
     @Override
     public boolean delete(int number) {
-        return false;
+        Data deletedData = listChartDataList.stream().filter(x -> x.getNumber() == number).findFirst()
+                .orElseThrow(RuntimeException::new);
+        listChartDataList.remove(deletedData);
+
+        return true;
     }
 }

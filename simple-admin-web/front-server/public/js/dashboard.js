@@ -130,6 +130,7 @@ const loadListChartData = () => {
                     <button 
                       type="button" class="btn btn-danger btn-sm" 
                       data-bs-toggle="modal" data-bs-target="#dataDeleteModal" data-bs-whatever="${data.number}"
+                      onclick="onClickDeleteModal(${data.number})"
                     >
                       삭제
                     </button>
@@ -195,6 +196,38 @@ const onClickDataControlSubmit = () => {
 
   $.ajax({
     url : `http://localhost:8080/dashboard/${requestType}`,
+    method : 'post',
+    contentType: "application/json; charset=utf-8",
+    data : JSON.stringify(data),
+    dataType: 'json',
+    success : function(res){
+        if (res) {
+            location.reload();
+        } else {
+            alert('fail!');
+        }
+    },
+    error : function(xhr, status, error){
+        alert(xhr.status);           // 에러코드(404, 500 등)
+        alert(xhr.responseText); // html 포맷의 에러 메시지
+        alert(status);                // 'error'
+        alert(error);                 // 'Not Found'
+    }
+  });
+}
+
+const onClickDeleteModal = (dataNumber) => {
+  $("#delete-number").val(dataNumber);
+}
+
+const onClickDataDeleteSubmit = () => {
+  const data = {
+    "number": $("#delete-number").val()
+  };
+  console.log(data);
+
+  $.ajax({
+    url : 'http://localhost:8080/dashboard/delete',
     method : 'post',
     contentType: "application/json; charset=utf-8",
     data : JSON.stringify(data),

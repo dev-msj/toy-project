@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/dashboard")
@@ -29,5 +30,10 @@ public class DashBoardController {
     @PostMapping(value = "/read")
     public List<Data> read() {
         return service.read();
+    }
+
+    @PostMapping(value = "/delete")
+    public boolean delete(@RequestBody Map<String, Integer> value) {
+        return service.delete((value.get("number")));
     }
 }
