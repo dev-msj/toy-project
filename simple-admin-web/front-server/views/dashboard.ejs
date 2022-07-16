@@ -184,6 +184,9 @@
                   <div class="modal-body">
                     <form>
                       <div class="mb-3">
+                        <input type="hidden" class="form-control" id="data-number">
+                      </div>
+                      <div class="mb-3">
                         <label for="random-name" class="col-form-label">Random</label>
                         <input type="text" class="form-control" id="random-name">
                       </div>
@@ -199,7 +202,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Submit</button>
+                    <button type="button" class="btn btn-primary" onclick="onClickDataControlSubmit()">Submit</button>
                   </div>
                 </div>
               </div>

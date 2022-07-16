@@ -21,6 +21,11 @@ public class DashBoardController {
         return service.add(data);
     }
 
+    @PostMapping(value = "/update")
+    public boolean update(@RequestBody Data data) {
+        return service.update(data);
+    }
+
     @PostMapping(value = "/read")
     public List<Data> read() {
         return service.read();

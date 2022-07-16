@@ -1,5 +1,3 @@
-/* globals Chart:false, feather:false */
-
 window.onload = () => {
   setDataControlModal();
   setDataDeleteModal();
@@ -91,7 +89,6 @@ const addListChartData = () => {
         contentType: "application/json; charset=utf-8",
         dataType : 'json',
         method : 'post',
-        async : true,
         success : function(res){
             if (JSON.parse(res)) {
                 window.location.href = "http://localhost:3000/dashboard";
@@ -115,9 +112,7 @@ const loadListChartData = () => {
     method : 'post',
     success : function(res){
         if (res) {
-            console.log(res);
             for (const data of res) {
-              console.log(data);
               const newRowContent = `
                 <tr>
                   <td>${data.number}</td>
@@ -158,12 +153,64 @@ const loadListChartData = () => {
 
 const onClickUpdateModal = (dataNumber) => {
   if (dataNumber === '') {
+    $("#data-number").val('');
     $("#random-name").val('');
     $("#data-name").val('');
     $("#type-name").val('');
   } else {
+    $("#data-number").val(dataNumber);
     $("#random-name").val($(`#random${dataNumber}`).text());
     $("#data-name").val($(`#data${dataNumber}`).text());
     $("#type-name").val($(`#type${dataNumber}`).text());
   }
+}
+
+const onClickDataControlSubmit = () => {
+  const data = {
+    "number": $("#data-number").val(),
+    "random": $("#random-name").val(),
+    "data": $("#data-name").val(),
+    "type": $("#type-name").val(),
+  };
+  let requestType = "add";
+
+  if (data.number === '') {
+    data.number = -1;
+  } else {
+    requestType = "update";
+  }
+
+  if (data.random === '') {
+    alert('empty random');
+    return;
+  }
+  if (data.data === '') {
+    alert('empty data');
+    return;
+  }
+  if (data.type === '') {
+    alert('empty type');
+    return;
+  }
+
+  $.ajax({
+    url : `http://localhost:8080/dashboard/${requestType}`,
+    method : 'post',
+    contentType: "application/json; charset=utf-8",
+    data : JSON.stringify(data),
+    dataType: 'json',
+    success : function(res){
+        if (res) {
+            location.reload();
+        } else {
+            alert('fail!');
+        }
+    },
+    error : function(xhr, status, error){
+        alert(xhr.status);           // 에러코드(404, 500 등)
+        alert(xhr.responseText); // html 포맷의 에러 메시지
+        alert(status);                // 'error'
+        alert(error);                 // 'Not Found'
+    }
+  });
 }

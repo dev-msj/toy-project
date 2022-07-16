@@ -5,6 +5,7 @@ import com.web.simpleadminweb.service.DashBoardService;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -18,7 +19,15 @@ public class DashBoardServiceImpl implements DashBoardService {
 
     @Override
     public boolean add(Data data) {
-        return false;
+        if (data.getNumber() == -1) {
+            Data maxNumberData = listChartDataList.stream().max(Comparator.comparing(Data::getNumber))
+                    .orElseThrow(RuntimeException::new);
+            data.setNumber(maxNumberData.getNumber() + 1);
+        }
+
+        listChartDataList.add(data);
+
+        return true;
     }
 
     @Override
@@ -28,7 +37,13 @@ public class DashBoardServiceImpl implements DashBoardService {
 
     @Override
     public boolean update(Data data) {
-        return false;
+        Data updatedData = listChartDataList.stream().filter(x -> x.getNumber() == data.getNumber()).findFirst()
+                .orElseThrow(RuntimeException::new);
+        updatedData.setRandom(data.getRandom());
+        updatedData.setData(data.getData());
+        updatedData.setType(data.getType());
+        
+        return true;
     }
 
     @Override
