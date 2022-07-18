@@ -109,7 +109,7 @@ const addListChartData = () => {
 const loadListChartData = () => {
   $.ajax({
     url : "http://localhost:8080/dashboard/read",
-    method : 'post',
+    method : 'get',
     success : function(res){
         if (res) {
             for (const data of res) {
@@ -221,16 +221,13 @@ const onClickDeleteModal = (dataNumber) => {
 }
 
 const onClickDataDeleteSubmit = () => {
-  const data = {
-    "number": $("#delete-number").val()
-  };
-  console.log(data);
-
   $.ajax({
     url : 'http://localhost:8080/dashboard/delete',
-    method : 'post',
+    method : 'get',
     contentType: "application/json; charset=utf-8",
-    data : JSON.stringify(data),
+    data : {
+      "number": $("#delete-number").val()
+    },
     dataType: 'json',
     success : function(res){
         if (res) {
